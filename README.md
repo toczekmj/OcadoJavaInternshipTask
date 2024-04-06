@@ -1,4 +1,4 @@
-## Table of Contents
+## Documentation
 #### BasketSplitter
 - [BasketSplitter Documentation](#-basketsplitter-documentation)
   - [Purpose](#purpose)
