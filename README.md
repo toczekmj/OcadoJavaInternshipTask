@@ -7,7 +7,7 @@
       - [Constructor](#constructor)
       - [split](#split)
   - [Private Methods](#private-methods)
-      - [getHashMapMaxValueEntry](#gethashmapmaxvalueentry)
+      - [mapMaxValueKey](#mapMaxValueKey)
       - [generateFrequencyMap](#generateFrequencyMap)
       - [loadProductsToSplit](#loadproductstosplit)
   - [Usage Example](#usage-example)
@@ -74,10 +74,10 @@ The `BasketSplitter` is designed to:
 
 ## Private Methods
 
-### getHashMapMaxValueEntry
+### mapMaxValueKey
 
 - **Purpose**: Finds the key with the maximum value in a given `HashMap<String, Integer>`.
-- **Signature**: `private String getHashMapMaxValueEntry(Map<String, Integer> hashMap)`.
+- **Signature**: `private String mapMaxValueKey(Map<String, Integer> hashMap)`.
 - **Input**: `Map<String, Integer> hashMap` - HashMap to operate on.
 - **Output**: `String` - The key with the highest value, or `null` if the map is empty.
 - **Logic**:
@@ -86,7 +86,7 @@ The `BasketSplitter` is designed to:
 
 ### generateFrequencyMap
 
-- **Purpose**: Counts how many items have each specific delivery option.
+- **Purpose**: Counts how many items have each specific delivery option available.
 - **Signature**: `private HashMap<String, Integer> generateFrequencyMap(List<Product> productsToSplit)`
 - **Input**: `List<Product> productsToSplit` - a list of products which is used to initialize our HashMap.
 - **Output**: `HashMap<String, Integer>` - A mapping of delivery options to their occurrence count in the provided products list.
