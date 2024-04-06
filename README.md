@@ -12,6 +12,7 @@
       - [mapMaxValueKey](#mapMaxValueKey)
       - [generateFrequencyMap](#generateFrequencyMap)
       - [loadProductsToSplit](#loadproductstosplit)
+  - [Exceptions](#exceptions)
 #### JsonLoader
 - [JsonLoader Documentation](#JsonLoader-Documentation)
   - [Overview](#overview)
@@ -90,6 +91,7 @@ This example demonstrates how to use the `BasketSplitter` class to divide a list
 - **Signature**: `public Map<String, List<String>> split(List<String> items)`
 - **Input**: `List<String> items` - A list of product names to be split.
 - **Output**: `Map<String, List<String>>` - A mapping of delivery options to lists of product names.
+- **Exceptions**: `split` may produce IOException due to JsonLoader implementation.  
 - **Logic**:
     - Loads the products to be split from the provided list.
     - Creates DeliveryFrequency Map based on provided products
@@ -138,8 +140,6 @@ This example demonstrates how to use the `BasketSplitter` class to divide a list
     - For each entry in config checks if provided `items` list contains such an entry.
         - if so - adds it to output list.
     - Returns list of `Product` objects.
-
-
 
 # JsonLoader Documentation
 
