@@ -1,10 +1,15 @@
 package com.ocado.basket;
 
-import java.util.*;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Comparator;
 
 public class BasketSplitter {
     private final List<Product> _productsConfig;
-    public BasketSplitter(String absolutePathToConfigFile){
+    public BasketSplitter(String absolutePathToConfigFile) throws IOException {
         this._productsConfig = JsonLoader.loadConfig(absolutePathToConfigFile);
     }
 

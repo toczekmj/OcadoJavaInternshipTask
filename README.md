@@ -2,6 +2,8 @@
 #### BasketSplitter
 - [BasketSplitter Documentation](#-basketsplitter-documentation)
   - [Purpose](#purpose)
+  - [Installation](#installation)
+  - [Usage Example](#usage-example)
   - [How it Works](#how-it-works)
   - [Public Methods](#public-methods)
       - [Constructor](#constructor)
@@ -10,13 +12,11 @@
       - [mapMaxValueKey](#mapMaxValueKey)
       - [generateFrequencyMap](#generateFrequencyMap)
       - [loadProductsToSplit](#loadproductstosplit)
-  - [Usage Example](#usage-example)
 #### JsonLoader
 - [JsonLoader Documentation](#JsonLoader-Documentation)
   - [Overview](#overview)
   - [Key Features](#key-features)
   - [Method Detail](#method-detail)
-  - [Example Usage](#example-usage)
   - [Dependencies](#dependencies)
   - [Summary](#summary)
 #### Product
@@ -27,7 +27,6 @@
     - [Constructor](#-constructor)
     - [Methods](#-methods)
   - [Key Features](#-key-features)
-  - [Usage Example](#-usage-example)
   - [Conclusion](#-conclusion)
     
 ## 📦🔀 BasketSplitter Documentation
@@ -40,6 +39,37 @@ The `BasketSplitter` is designed to:
 - Load product configurations using the `JsonLoader` class.
 - Split a list of product names into multiple baskets based on the delivery options available for each product.
 - Ensure that each basket is optimized to contain products with the same delivery option, minimizing the number of separate deliveries, at the same time maximizing the number of products in single delivery.
+
+
+## Installation
+In order to install Fat Jar as a maven dependency you can execute this command:
+```shell
+mvn install:install-file -Dfile=<Path to BasketSplitter.jar> -DgroupId=com.ocado.basket -DartifactId=BasketSplitter -Dversion=1.0 -Dpackaging=jar
+```
+And then you can add dependencies. For example in maven:
+```html
+<dependency>
+    <groupId>com.ocado.basket</groupId>
+    <artifactId>BasketSplitter</artifactId>
+    <version>1.0</version>
+</dependency>
+```
+
+## Usage Example
+```java
+String configFile = "/path/to/config.json";
+List<String> itemsToSplit = Arrays.asList("Milk", "Bread", "Apple");
+
+BasketSplitter splitter = new BasketSplitter(configFile);
+Map<String, List<String>> baskets = splitter.split(itemsToSplit);
+
+for(Map.Entry<String, List<String>> basket : baskets.entrySet()) {
+    System.out.println("Delivery Option: " + basket.getKey() + " contains products: " + basket.getValue());
+}
+```
+
+This example demonstrates how to use the `BasketSplitter` class to divide a list of product names into optimized baskets based on their delivery options. The resulting baskets minimize the number of separate deliveries by grouping items with common delivery options together. The `BasketSplitter` effectively reduces logistical complexity and potentially delivery costs, making it an essential tool for eCommerce platforms and delivery system optimizations.
+
 
 ## How it Works
 
@@ -109,22 +139,6 @@ The `BasketSplitter` is designed to:
         - if so - adds it to output list.
     - Returns list of `Product` objects.
 
-## Usage Example
-
-```java
-String configFile = "/path/to/config.json";
-List<String> itemsToSplit = Arrays.asList("Milk", "Bread", "Apple");
-
-BasketSplitter splitter = new BasketSplitter(configFile);
-Map<String, List<String>> baskets = splitter.split(itemsToSplit);
-
-for(Map.Entry<String, List<String>> basket : baskets.entrySet()) {
-    System.out.println("Delivery Option: " + basket.getKey() + " contains products: " + basket.getValue());
-}
-```
-
-This example demonstrates how to use the `BasketSplitter` class to divide a list of product names into optimized baskets based on their delivery options. The resulting baskets minimize the number of separate deliveries by grouping items with common delivery options together. The `BasketSplitter` effectively reduces logistical complexity and potentially delivery costs, making it an essential tool for eCommerce platforms and delivery system optimizations.
-
 
 
 # JsonLoader Documentation
@@ -167,23 +181,6 @@ public static List<Product> loadConfig(String JSONPath)
     - The method attempts to read the JSON file located at `JSONPath` and parse it into a `Map<String, List<String>>`. Each entry in the map represents a product, with the key being the product name and the value being a list of strings related to the product (possibly representing attributes or categories).
     - It iterates through each entry in the map, creating a new `Product` object with the key as the product name and the value as the product's attributes or categories. Each `Product` object is then added to the list of products.
 4. **Error Handling**: If an exception occurs during the reading or parsing process, the stack trace is printed to standard error.
-
-#### Example Usage
-
-Assuming a JSON file named `products.json` with the following content:
-
-```json
-{
-  "Apple": ["Next day", "Courier"],
-  "Bread": ["Pickup Point"]
-}
-```
-
-The `loadConfig` method can be called as follows to load these products into a list of `Product` objects:
-
-```java
-List<Product> products = JsonLoader.loadConfig("path/to/products.json");
-```
 
 ## Dependencies
 
@@ -229,24 +226,6 @@ Below is a detailed breakdown of the class components:
 
 - **Immutability**: Once a `Product` object is created, its state cannot be altered. This design choice enhances predictability and thread safety.
 - **Encapsulation**: By keeping its fields private and only exposing them through getter methods, `Product` ensures that its internal representation is hidden from outside manipulation.
-
-## **🎯 Usage Example**
-
-```java
-import com.ocado.basket.Product;
-import java.util.Arrays;
-
-public class Main {
-    public static void main(String[] args) {
-        // Example product creation
-        Product apple = new Product("Apple", Arrays.asList("Next Day", "Standard", "Economy"));
-
-        // Accessing product information
-        System.out.println("Product Name: " + apple.getProductName());
-        System.out.println("Delivery Options: " + apple.getDeliveryOptions());
-    }
-}
-```
 
 ## **📈 Conclusion**
 

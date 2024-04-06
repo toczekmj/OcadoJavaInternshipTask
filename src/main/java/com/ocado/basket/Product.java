@@ -2,7 +2,7 @@ package com.ocado.basket;
 
 import java.util.List;
 
-public class Product {
+class Product {
     private final String productName;
     private final List<String> deliveryOptions;
     public Product(String productName, List<String> deliveryOptions){
