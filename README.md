@@ -42,7 +42,12 @@ The `BasketSplitter` is designed to:
 ## Installation
 In order to install Fat Jar as a maven dependency you can execute this command:
 ```shell
-mvn install:install-file -Dfile=<Path to BasketSplitter.jar> -DgroupId=com.ocado.basket -DartifactId=BasketSplitter -Dversion=1.0 -Dpackaging=jar
+mvn install:install-file \
+-Dfile=<Path to BasketSplitter.jar> \
+-DgroupId=com.ocado.basket \
+-DartifactId=BasketSplitter \
+-Dversion=1.0 \
+-Dpackaging=jar
 ```
 And then you can add dependencies. For example in maven:
 ```html
@@ -62,7 +67,8 @@ BasketSplitter splitter = new BasketSplitter(configFile);
 Map<String, List<String>> baskets = splitter.split(itemsToSplit);
 
 for(Map.Entry<String, List<String>> basket : baskets.entrySet()) {
-    System.out.println("Delivery Option: " + basket.getKey() + " contains products: " + basket.getValue());
+    System.out.println("Delivery Option: " + basket.getKey() 
+    + " contains products: " + basket.getValue());
 }
 ```
 
