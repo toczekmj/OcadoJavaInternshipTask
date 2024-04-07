@@ -171,6 +171,9 @@ public static List<Product> loadConfig(String JSONPath)
 
 - A `List<Product>`: This list contains `Product` objects instantiated from the JSON file. Each `Product` represents a product configuration as defined in the JSON.
 
+### Exceptions
+- If an exception occurs during the reading or parsing process, method produces IOException
+
 #### Implementation Details
 
 1. **Initialization**: A new empty list of `Product` objects is created.
@@ -178,8 +181,7 @@ public static List<Product> loadConfig(String JSONPath)
 3. **Reading and Parsing JSON**:
     - The method attempts to read the JSON file located at `JSONPath` and parse it into a `Map<String, List<String>>`. Each entry in the map represents a product, with the key being the product name and the value being a list of strings related to the product (possibly representing attributes or categories).
     - It iterates through each entry in the map, creating a new `Product` object with the key as the product name and the value as the product's attributes or categories. Each `Product` object is then added to the list of products.
-4. **Error Handling**: If an exception occurs during the reading or parsing process, the stack trace is printed to standard error.
-
+4. **Returns list of products objects**
 ## Dependencies
 
 - **Jackson Databind**: This class requires the Jackson library to deserialize JSON content. The `ObjectMapper` class from `com.fasterxml.jackson.databind` is used for this purpose.
