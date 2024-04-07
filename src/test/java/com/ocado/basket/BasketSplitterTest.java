@@ -7,31 +7,28 @@ import org.junit.jupiter.api.io.TempDir;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BasketSplitterTest {
-    private final String config = """
-                {
-                "Carrots (1kg)": ["Express Delivery", "Click&Collect"], "Cold Beer (330ml)": ["Express Delivery"],
-                "Steak (300g)": ["Express Delivery", "Click&Collect"], "AA Battery (4 Pcs.)": ["Express Delivery", "Courier"], "Espresso Machine": ["Courier", "Click&Collect"], "Garden Chair": ["Courier"]
-                }""";
+    private final String configPath = "src/main/resources/testConfig.json";
     @Test
-    void split_ValidConfig_ValidItems_shouldReturnValidMap(@TempDir Path tempDir) throws IOException {
+    void split_ValidConfig_ValidItems_shouldReturnValidMap() throws IOException {
         //Arrange
         List<String> items = Arrays.asList("Steak (300g)", "Carrots (1kg)",
                                             "Cold Beer (330ml)", "AA Battery (4 Pcs.)",
                                             "Espresso Machine", "Garden Chair");
 
-        Path configFile = tempDir.resolve("config.json");
-        Files.writeString(configFile, config);
 
         Map<String, List<String>> validOutput = new HashMap<>();
         validOutput.put("Courier", Arrays.asList("Garden Chair", "Espresso Machine"));
         validOutput.put("Express Delivery", Arrays.asList("AA Battery (4 Pcs.)", "Steak (300g)", "Cold Beer (330ml)", "Carrots (1kg)"));
         //Act
-        BasketSplitter _sut = new BasketSplitter(configFile.toString());
+        BasketSplitter _sut = new BasketSplitter(configPath);
         Map<String, List<String>> output = _sut.split(items);
 
         //Assert
@@ -39,15 +36,13 @@ class BasketSplitterTest {
     }
 
     @Test
-    void split_ValidConfig_InvalidItemsNoItems_shouldReturnEmptyMap(@TempDir Path tempDir) throws IOException {
+    void split_ValidConfig_InvalidItemsNoItems_shouldReturnEmptyMap() throws IOException {
         //Arrange
         List<String> items = List.of();
-        Path configFile = tempDir.resolve("config.json");
-        Files.writeString(configFile, config);
         Map<String, List<String>> validOutput = new HashMap<>();
 
         //Act
-        BasketSplitter _sut = new BasketSplitter(configFile.toString());
+        BasketSplitter _sut = new BasketSplitter(configPath);
         Map<String, List<String>> output = _sut.split(items);
 
         //Assert
@@ -55,14 +50,13 @@ class BasketSplitterTest {
     }
 
     @Test
-    void split_InvalidConfigUnexpectedCharacter_ThrowsIOException(@TempDir Path tempDir) throws IOException {
+    void split_InvalidConfigUnexpectedCharacter_ThrowsIOException(@TempDir Path path) throws IOException {
         //Arrange
         String localConfig = """
                 {
                 "Carrots (1kg)": , ["Express Delivery", "Click&Collect"], "Cold Beer (330ml)": ["Express Delivery"]
                 }""";
-
-        Path configFile = tempDir.resolve("config.json");
+        Path configFile = path.resolve("config.json");
         Files.writeString(configFile, localConfig);
 
         //Act && Assert

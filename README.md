@@ -96,12 +96,12 @@ This example demonstrates how to use the `BasketSplitter` class to divide a list
     - Loads the products to be split from the provided list.
     - Creates DeliveryFrequency Map based on provided products
     - As long as we have any product that were not yet computed (or the delivery option is not null), we perform further splitting.
-      - In every iteration we update our `currentMaxDelivery` which is delivery option that is present in the largest amount of Products.
-      - Iterates through Products list and checks if it is possible to deliver it `currentMaxDelivery` way.
+      - In every iteration we update our `mostFrequentDelivery` which is delivery option that is present in the largest amount of Products.
+      - Iterates through Products list and checks if it is possible to deliver it `mostFrequentDelivery` way.
         - If so, adds this particular Product to output list, and deletes it from the list. 
         - Hence, we have removed product form list, we have to update our DeliveryFrequencyMap, and decrease value of every key (Delivery method) which was present in recently removed Product.
       - Puts our Delivery option name, and output lists of products into our final `outputBasket`.
-      - Updates our `currentMaxDelivery`
+      - Updates our `mostFrequentDelivery`
     - Returns our final output basket. 
 
 ## Private Methods

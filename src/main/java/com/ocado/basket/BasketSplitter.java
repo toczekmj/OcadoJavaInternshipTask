@@ -1,16 +1,13 @@
 package com.ocado.basket;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.*;
 
 public class BasketSplitter {
-    private final List<Product> _productsConfig;
+    private final List<Product> productsConfig;
     public BasketSplitter(String absolutePathToConfigFile) throws IOException {
-        this._productsConfig = JsonLoader.loadConfig(absolutePathToConfigFile);
+        //TODO: add info to readme, about IOException
+        this.productsConfig = JsonLoader.loadConfig(absolutePathToConfigFile);
     }
 
     /**
@@ -22,29 +19,29 @@ public class BasketSplitter {
         List<Product> productsToSplit = loadProductsToSplit(items);
 
         //create hashmap that counts how many items has specific delivery option available
-        HashMap<String, Integer> deliveryFrequencyMap = generateFrequencyMap(productsToSplit);
+        Map<String, Integer> deliveryFrequencyMap = generateFrequencyMap(productsToSplit);
 
         String mostFrequentDelivery = mapMaxValueKey(deliveryFrequencyMap);
         Map<String, List<String>> outputBasket = new HashMap<>();
 
         while(mostFrequentDelivery != null && !productsToSplit.isEmpty()){
-            String finalCurrentMaxDelivery = mostFrequentDelivery;
+            String finalMostFrequentDelivery = mostFrequentDelivery;
             List<String> products = new ArrayList<>();
 
             //check each element if contains desired delivery option, if so add it to output list, and update hashmap
             for(int i = productsToSplit.size()-1; i >= 0; i--){
                 Product currentProduct = productsToSplit.get(i);
 
-                if(!currentProduct.getDeliveryOptions().contains(finalCurrentMaxDelivery)) continue;
+                if(!currentProduct.deliveryOptions().contains(finalMostFrequentDelivery)) continue;
 
-                for(String deliveryOption : currentProduct.getDeliveryOptions())
+                for(String deliveryOption : currentProduct.deliveryOptions())
                     deliveryFrequencyMap.replace(deliveryOption, deliveryFrequencyMap.get(deliveryOption)-1);
 
-                products.add(currentProduct.getProductName());
+                products.add(currentProduct.productName());
                 productsToSplit.remove(currentProduct);
             }
 
-            outputBasket.put(finalCurrentMaxDelivery, products);
+            outputBasket.put(finalMostFrequentDelivery, products);
             deliveryFrequencyMap.remove(mostFrequentDelivery);
             mostFrequentDelivery = mapMaxValueKey(deliveryFrequencyMap);
         }
@@ -56,10 +53,11 @@ public class BasketSplitter {
      * @param productsToSplit A list of products objects which is used to initialize our HashMap.
      * @return                A mapping of delivery options to their occurrence count in the provided products list.
      */
-    private HashMap<String, Integer> generateFrequencyMap(List<Product> productsToSplit){
-        HashMap<String, Integer> deliveryMap = new HashMap<>();
+    //TODO: update documentation Signatures for generateFrequencyMap
+    private Map<String, Integer> generateFrequencyMap(List<Product> productsToSplit){
+        Map<String, Integer> deliveryMap = new HashMap<>();
         for(Product product : productsToSplit){
-            List<String> deliveryOptions = product.getDeliveryOptions();
+            List<String> deliveryOptions = product.deliveryOptions();
             for(String deliveryOption : deliveryOptions){
                 //if there is no product with specific delivery option, meaning this particular delivery option does not exist in hash map, create it with value of 1
                 if(!deliveryMap.containsKey(deliveryOption)){
@@ -81,8 +79,8 @@ public class BasketSplitter {
      */
     private List<Product> loadProductsToSplit(List<String> items) {
         List<Product> output = new ArrayList<>();
-        for(Product product : _productsConfig)
-            if(items.contains(product.getProductName()))
+        for(Product product : productsConfig)
+            if(items.contains(product.productName()))
                 output.add(product);
         return output;
     }
