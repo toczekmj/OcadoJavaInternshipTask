@@ -1,4 +1,5 @@
-## Documentation
+# Documentation
+## Publicly exposed methods
 #### BasketSplitter
 - [BasketSplitter Documentation](#-basketsplitter-documentation)
   - [Purpose](#purpose)
@@ -12,7 +13,7 @@
       - [mapMaxValueKey](#mapMaxValueKey)
       - [generateFrequencyMap](#generateFrequencyMap)
       - [loadProductsToSplit](#loadproductstosplit)
-  - [Exceptions](#exceptions)
+## Private parts
 #### JsonLoader
 - [JsonLoader Documentation](#JsonLoader-Documentation)
   - [Overview](#overview)
@@ -23,11 +24,7 @@
 #### Product
 - [Product Object Documentation](#-product-documentation)
   - [Overview](#-overview) 
-  - [Class Structure](#-class-structure)
     - [Attributes](#-attributes)
-    - [Constructor](#-constructor)
-    - [Methods](#-methods)
-  - [Key Features](#-key-features)
   - [Conclusion](#-conclusion)
     
 ## 📦🔀 BasketSplitter Documentation
@@ -91,7 +88,8 @@ This example demonstrates how to use the `BasketSplitter` class to divide a list
 - **Signature**: `public Map<String, List<String>> split(List<String> items)`
 - **Input**: `List<String> items` - A list of product names to be split.
 - **Output**: `Map<String, List<String>>` - A mapping of delivery options to lists of product names.
-- **Exceptions**: `split` may produce IOException due to JsonLoader implementation.  
+- **Exceptions**: 
+  - `BasketSplitter(...)` constructor may produce IOException due to JsonLoader implementation.
 - **Logic**:
     - Loads the products to be split from the provided list.
     - Creates DeliveryFrequency Map based on provided products
@@ -119,9 +117,9 @@ This example demonstrates how to use the `BasketSplitter` class to divide a list
 ### generateFrequencyMap
 
 - **Purpose**: Counts how many items have each specific delivery option available.
-- **Signature**: `private HashMap<String, Integer> generateFrequencyMap(List<Product> productsToSplit)`
+- **Signature**: `private Map<String, Integer> generateFrequencyMap(List<Product> productsToSplit)`
 - **Input**: `List<Product> productsToSplit` - a list of products which is used to initialize our HashMap.
-- **Output**: `HashMap<String, Integer>` - A mapping of delivery options to their occurrence count in the provided products list.
+- **Output**: `Map<String, Integer>` - A mapping of delivery options to their occurrence count in the provided products list.
 - **Logic**:
     - Initializes new empty `HashMap<String, Integer>`.
     - For each product in `productsToSplit` checks its delivery options, which is taken as a key for our HashMap.
@@ -194,38 +192,20 @@ The `JsonLoader` class provides a straightforward and efficient way to load prod
 
 ---
 
-The `Product.java` file is a crucial component of a Java application designed to manage and represent products, particularly focusing on their delivery options. This class is part of the `com.ocado.basket` package, which suggests its use in an application related to shopping or order management, possibly for Ocado or a similar e-commerce platform.
+The `Product.java` file is a crucial component of a Java application designed to manage and represent products, particularly focusing on their delivery options. 
 
 ## **🔍 Overview**
 
-`Product` is a simple Java class that encapsulates two pieces of information about a product:
+`Product` is a simple Java record that encapsulates two pieces of information about a product:
 - **Product Name**
 - **Delivery Options**
 
 It provides a straightforward way to instantiate product objects with these attributes and retrieve their values, adhering to principles of immutability and encapsulation.
 
-## **🛠️ Class Structure**
-
-Below is a detailed breakdown of the class components:
-
 ### **📝 Attributes**
 
-- `productName` (String): The name of the product.
-- `deliveryOptions` (List<String>): A list of delivery options available for the product.
-
-### **🏗️ Constructor**
-
-- `public Product(String productName, List<String> deliveryOptions)`: Constructs a `Product` instance with the specified name and delivery options.
-
-### **📋 Methods**
-
-- `public String getProductName()`: Returns the name of the product.
-- `public List<String> getDeliveryOptions()`: Returns the list of delivery options available for the product.
-
-## **🔑 Key Features**
-
-- **Immutability**: Once a `Product` object is created, its state cannot be altered. This design choice enhances predictability and thread safety.
-- **Encapsulation**: By keeping its fields private and only exposing them through getter methods, `Product` ensures that its internal representation is hidden from outside manipulation.
+- `productName` (`String`): The name of the product.
+- `deliveryOptions` (`List<String>`): A list of delivery options available for the product.
 
 ## **📈 Conclusion**
 

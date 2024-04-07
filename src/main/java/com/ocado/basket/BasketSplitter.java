@@ -6,7 +6,6 @@ import java.util.*;
 public class BasketSplitter {
     private final List<Product> productsConfig;
     public BasketSplitter(String absolutePathToConfigFile) throws IOException {
-        //TODO: add info to readme, about IOException
         this.productsConfig = JsonLoader.loadConfig(absolutePathToConfigFile);
     }
 
@@ -53,7 +52,6 @@ public class BasketSplitter {
      * @param productsToSplit A list of products objects which is used to initialize our HashMap.
      * @return                A mapping of delivery options to their occurrence count in the provided products list.
      */
-    //TODO: update documentation Signatures for generateFrequencyMap
     private Map<String, Integer> generateFrequencyMap(List<Product> productsToSplit){
         Map<String, Integer> deliveryMap = new HashMap<>();
         for(Product product : productsToSplit){
